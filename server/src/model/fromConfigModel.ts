@@ -14,7 +14,7 @@ export interface IFormConfigDb {
   updatedAt: Date
 }
 
-const FieldsSchema = new Schema<IField>({
+export const FieldsSchema = new Schema<IField>({
   id: { type: String, required: true },
   label: { type: String, required: true },
   type: {
