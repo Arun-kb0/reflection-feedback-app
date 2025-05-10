@@ -12,6 +12,7 @@ interface IUser {
   _id: string
   email: string
   password: string
+  accessToken: string
   roles: Roles[]
   profile: Profile
   createdAt: string
