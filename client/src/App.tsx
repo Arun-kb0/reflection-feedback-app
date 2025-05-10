@@ -1,15 +1,35 @@
-import { Button } from '@material-tailwind/react'
-import React from 'react'
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import NavigationBar from './components/basic/Navbar';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import UserRoutes from './routes/UserRoutes';
+import AdminRoutes from './routes/AdminRoutes';
+import type { UserType } from './constants/userTypes';
+import { useEffect, useState } from 'react';
 
 const App = () => {
+  const user = {} as UserType
+  const location = useLocation()
+  const noNavPaths = ['/login', '/signup']
+  const [showNavbar, setShowNavbar] = useState(() => (
+    !noNavPaths.includes(location.pathname)
+  ))
+
+  useEffect(() => {
+    setShowNavbar(!noNavPaths.includes(location.pathname))
+  },[location.pathname])
+  
   return (
-    <div className='bg-black min-h-screen flex justify-center '>
-      <h1 className='text-white'>App</h1>
-      <div>
-        <Button> click </Button>
-      </div>
-    </div>
+    <>
+      {showNavbar && <NavigationBar />}
+      <ToastContainer theme='dark' />
+
+      <Routes>
+        <Route path='/admin/*' element={<AdminRoutes />} />
+        <Route path='/*' element={<UserRoutes user={user} />} />
+      </Routes>
+
+    </>
   )
 }
 
