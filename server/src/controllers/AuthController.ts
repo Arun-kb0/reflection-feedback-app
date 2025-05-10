@@ -4,6 +4,7 @@ import IAuthService from "../interfaces/auth/IAuthService";
 import httpStatus from "../constants/httpStatus";
 import { validateRequest, validateResponse } from "../util/validator";
 import IUser from "../interfaces/IUser";
+import { validate } from "node-cron";
 
 class AuthController implements IAuthController {
 
@@ -43,8 +44,19 @@ class AuthController implements IAuthController {
     }
   }
 
-  login(req: Request, res: Response, next: NextFunction): Promise<void> {
-    throw new Error("Method not implemented.");
+  async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { email, password } = req.body
+      validateRequest(
+        { email, password },
+        { email: "string", password: "string" }
+      )
+      const svcRes = await this.authService.login(email, password)
+      validateResponse(svcRes)
+      res.status(httpStatus.OK).json(svcRes.data)
+    } catch (error) {
+      next(error)
+    }
   }
 
   logout(req: Request, res: Response, next: NextFunction): Promise<void> {

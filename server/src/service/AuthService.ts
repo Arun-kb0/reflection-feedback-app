@@ -6,7 +6,7 @@ import IUser from "../interfaces/IUser";
 import { handleServiceData } from '../util/handleService'
 import HttpError from "../util/HttpError";
 import bcrypt from 'bcrypt'
-import jwt, { JwtPayload, VerifyCallback, VerifyErrors } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string || 'secret'
@@ -39,15 +39,32 @@ class AuthService implements IAuthService {
       )
       const updatedUser = await this.userRepo.updateUser(newUser._id, { accessToken })
       if (!updatedUser) throw new Error('Signup failed')
-      
+
       return handleServiceData<AuthResType>({ user: updatedUser, accessToken })
     } catch (error) {
       throw error
     }
   }
 
-  login(email: string, password: string): ServiceReturnType<AuthResType> {
-    throw new Error("Method not implemented.");
+  async login(email: string, password: string): ServiceReturnType<AuthResType> {
+    try {
+      const foundUser = await this.userRepo.findUserByEmail(email)
+      if (!foundUser) throw new HttpError(httpStatus.NOT_FOUND, 'User not found.')
+
+      const isMatch = await bcrypt.compare(password, foundUser.password)
+      if (!isMatch) throw new HttpError(httpStatus.UNAUTHORIZED, 'Password miss match.')
+      const accessToken = jwt.sign(
+        { "email": email, "userId": foundUser._id, "roles": foundUser.roles },
+        ACCESS_TOKEN_SECRET,
+        { expiresIn: ACCESS_EXPIRES_IN }
+      )
+      const updatedUser = await this.userRepo.updateUser(foundUser._id, { accessToken })
+      if (!updatedUser) throw new Error('Login failed')
+
+      return handleServiceData({ user: updatedUser, accessToken })
+    } catch (error) {
+      throw error
+    }
   }
 
   logout(accessToken: string): ServiceReturnType<{ status: string; }> {
