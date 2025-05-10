@@ -23,3 +23,10 @@ export type AuthResType = {
   user: IUser
   accessToken: string
 }
+
+export type ValidatorResponseType = {
+  data: any | undefined
+  error: string | undefined
+  statusCode: httpStatus | undefined
+}
+
