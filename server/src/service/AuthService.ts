@@ -67,8 +67,15 @@ class AuthService implements IAuthService {
     }
   }
 
-  logout(accessToken: string): ServiceReturnType<{ status: string; }> {
-    throw new Error("Method not implemented.");
+  async logout(accessToken: string): ServiceReturnType<{ status: string; }> {
+    try {
+      const foundUser = await this.userRepo.findUserByToken(accessToken)
+      if (!foundUser) throw new HttpError(httpStatus.NOT_FOUND, 'Logout success.')
+      const updated = await this.userRepo.updateUser(foundUser._id, { accessToken: '' })
+      return handleServiceData({ status: 'success' })
+    } catch (error) {
+      throw error
+    }
   }
 
 }

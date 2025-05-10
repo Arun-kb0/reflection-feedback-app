@@ -17,7 +17,8 @@ export const validateRequest = (
       (typeof expectedType === "string" && typeof actualValue !== expectedType) ||
       (typeof expectedType === "function" && !(actualValue instanceof expectedType))
     ) {
-      throw new HttpError(httpStatus.BAD_REQUEST, `${key} must be of type ${expectedType}`);
+      // throw new HttpError(httpStatus.BAD_REQUEST, `${key} must be of type ${expectedType}`);
+      throw new HttpError(httpStatus.BAD_REQUEST, `${key} is required`);
     }
   }
 

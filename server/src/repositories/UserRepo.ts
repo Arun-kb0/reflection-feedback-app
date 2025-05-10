@@ -1,3 +1,4 @@
+import { error } from "winston";
 import IUserBaseRepo from "../interfaces/auth/IUserBaseRepo";
 import IUserRepo from "../interfaces/auth/IUserRepo";
 import IUser from "../interfaces/IUser";
@@ -39,8 +40,13 @@ class UserRepo implements IUserRepo {
     }
   }
 
-  findUserByToken(accessToken: string): Promise<IUser | null> {
-    throw new Error("Method not implemented.");
+  async findUserByToken(accessToken: string): Promise<IUser | null> {
+    try {
+      const foundUser = await this.userBaseRepo.findByAccessToken(accessToken)
+      return foundUser ? convertIUserDbToIUser(foundUser) : null
+    } catch {
+      throw error
+    }
   }
 
 

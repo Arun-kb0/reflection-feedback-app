@@ -4,6 +4,6 @@ import { authController } from '../DI'
 
 router.post('/signup', authController.signup.bind(authController))
 router.post('/login', authController.login.bind(authController))
-router.post('/logout', authController.logout.bind(authController))
+router.get('/logout', authController.logout.bind(authController))
 
 export default router

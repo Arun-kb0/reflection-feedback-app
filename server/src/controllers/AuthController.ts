@@ -59,8 +59,19 @@ class AuthController implements IAuthController {
     }
   }
 
-  logout(req: Request, res: Response, next: NextFunction): Promise<void> {
-    throw new Error("Method not implemented.");
+  async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { accessToken } = req.query
+      validateRequest(
+        { accessToken },
+        { accessToken: "string" }
+      )
+      const svcRes = await this.authService.logout(accessToken as string)
+      validateResponse(svcRes)
+      res.status(httpStatus.OK).json(svcRes.data)
+    } catch (error) {
+      next(error)
+    }
   }
 
 }

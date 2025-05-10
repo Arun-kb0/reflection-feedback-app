@@ -46,8 +46,13 @@ class UserBaseRepo<T, U> implements IUserBaseRepo<T, U> {
     }
   }
 
-  findByAccessToken(accessToken: string): Promise<U | null> {
-    throw new Error("Method not implemented.");
+  async findByAccessToken(accessToken: string): Promise<U | null> {
+    try {
+      const user = await this.userModel.findOne({ accessToken })
+      return user as unknown as U
+    } catch (error) {
+      return handleRepoError(error)
+    }
   }
 
 
