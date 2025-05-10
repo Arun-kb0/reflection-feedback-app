@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 const App = () => {
   const user = {} as UserType
   const location = useLocation()
-  const noNavPaths = ['/login', '/signup']
+  const noNavPaths = ['/login', '/signup', '/admin/login']
   const [showNavbar, setShowNavbar] = useState(() => (
     !noNavPaths.includes(location.pathname)
   ))

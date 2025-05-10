@@ -18,3 +18,9 @@ export type UserType = {
   createdAt: string
   updatedAt: string
 }
+
+
+export type LoginFormValues = {
+  email: string
+  password: string
+}
