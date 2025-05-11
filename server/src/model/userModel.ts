@@ -5,6 +5,7 @@ export interface IUserDb {
   _id: Types.ObjectId
   email: string
   password: string
+  accessToken: string
   roles: Roles[]
   profile: Profile
   createdAt: Date
@@ -19,8 +20,9 @@ const ProfileSchema = new mongoose.Schema<Profile>({
 })
 
 const UserSchema = new mongoose.Schema<IUserDb>({
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  accessToken: { type: String },
   roles: {
     type: [{ type: String }],
     enum: ['requestor', 'provider', 'manager', 'admin'],
