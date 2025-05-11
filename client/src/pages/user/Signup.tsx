@@ -1,15 +1,29 @@
+import { useDispatch, useSelector } from 'react-redux'
 import SignupForm from '../../components/basic/SignupForm'
 import type { SignupFormValues } from '../../constants/userTypes'
+import type { AppDispatch } from '../../app/store'
+import { signup } from '../../features/auth/authApi'
+import { useNavigate } from 'react-router-dom'
+import { selectAuthStatus } from '../../features/auth/authSlice'
+import { useEffect } from 'react'
 
-type Props = {}
 
-const Signup = (props: Props) => {
+const Signup = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  const status = useSelector(selectAuthStatus)
 
   const handleSubmit = (data: SignupFormValues) => {
     console.log('signup')
     const { confirmPassword, ...rest } = data
-    console.log(rest)
+    dispatch(signup(rest))
   }
+
+  useEffect(() => {
+    if (status === 'success') {
+      navigate('/admin/')
+    }
+  }, [status])
 
   return (
     <main className='flex justify-center items-center min-h-screen '>

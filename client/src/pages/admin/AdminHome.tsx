@@ -4,7 +4,9 @@ type Props = {}
 
 const AdminHome = (props: Props) => {
   return (
-    <div>AdminHome</div>
+    <main className='min-h-screen flex justify-center items-center'>
+      <h1 className='text-2xl'>Admin Home</h1>
+    </main>
   )
 }
 

@@ -4,7 +4,9 @@ type Props = {}
 
 const Home = (props: Props) => {
   return (
-    <div>Home</div>
+    <main className='min-h-screen flex justify-center items-center'>
+      <h1 className='text-2xl'>Home</h1>
+    </main>
   )
 }
 
