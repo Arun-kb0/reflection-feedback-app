@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Navbar,
   Collapse,
@@ -8,10 +8,14 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../app/store";
+import { logout } from "../../features/auth/authApi";
 
 
 const NavigationBar = () => {
   const [openNav, setOpenNav] = React.useState(false);
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
   React.useEffect(() => {
@@ -22,8 +26,10 @@ const NavigationBar = () => {
   }, []);
 
   const handleLogout = () => {
-    // ! after logout 
-    navigate('/login')
+    (async () => {
+      await dispatch(logout()).unwrap()
+      navigate('/login')
+    })() 
   }
 
   const navList = (
