@@ -43,7 +43,9 @@ const CreateFormPage = (props: Props) => {
       isAnonymousAllowed: false,
       recallTimeFrame: data.recallTimeFrame,
       requestLimits: data.requestLimits,
-      effectiveFrom: data.effectiveFrom ? data.effectiveFrom : Date.now().toString(),
+      effectiveFrom: data.effectiveFrom
+      ? new Date(new Date(data.effectiveFrom).getTime() + 5 * 60 * 1000).toISOString()
+      : new Date(new Date().getTime() + 5 * 60 * 1000).toISOString(),
     }
     dispatch(createForm(configData))
   }

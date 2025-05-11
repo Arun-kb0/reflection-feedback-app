@@ -155,7 +155,8 @@ const ConfigForm = ({ handleConfigFormSubmit }:Props) => {
             <Typography className="text-xs text-red-400">{errors.requestLimits.maxRequestPerUser.message}</Typography>
           )}
 
-          <Controller
+          {/* effective date */}
+          {/* <Controller
             name="effectiveFrom"
             control={control}
             rules={{ required: "Effective From is required" }}
@@ -171,7 +172,7 @@ const ConfigForm = ({ handleConfigFormSubmit }:Props) => {
           />
           {errors.effectiveFrom && (
             <Typography className="text-xs text-red-400">{errors.effectiveFrom.message}</Typography>
-          )}
+          )} */}
         </div>
         <Button className="mt-6" isFullWidth type="submit">
           Save Config
