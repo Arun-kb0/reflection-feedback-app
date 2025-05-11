@@ -4,7 +4,9 @@ type Props = {}
 
 const WriteFeedback = (props: Props) => {
   return (
-    <div>WriteFeedback</div>
+    <main className='min-h-screen flex justify-center items-center'>
+      <h1 className='text-2xl'>Write feedback</h1>
+    </main>
   )
 }
 

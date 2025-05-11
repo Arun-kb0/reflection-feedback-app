@@ -26,7 +26,7 @@ const RequireAuth = ({ allowedRoles, fallbackPath }: Props) => {
       return null
     } else {
       return <Navigate to='/' replace />
-    } 
+    }
   }
 
   return <Outlet />

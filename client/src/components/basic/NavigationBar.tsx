@@ -49,7 +49,7 @@ const NavigationBar = () => {
         type="small"
         className="p-1 font-normal"
       >
-        <Link to='/upload' className="flex items-center">
+        <Link to='/write' className="flex items-center">
           Write Feedback
         </Link>
       </Typography>

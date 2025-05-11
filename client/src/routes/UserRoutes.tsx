@@ -7,6 +7,7 @@ import Signup from "../pages/user/Signup"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { selectAuthUser } from "../features/auth/authSlice"
+import NotFound from "../pages/basic/NotFound"
 
 
 const UserRoutes = () => {
@@ -29,14 +30,15 @@ const UserRoutes = () => {
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
 
-      <Route element={<RequireAuth allowedRoles={["requestor"]} />}>
+      <Route element={<RequireAuth allowedRoles={["requestor", "provider"]} />}>
         <Route path='/' element={<Home />} />
       </Route>
 
-      <Route element={<RequireAuth allowedRoles={["requestor", "provider"]} />}>
+      <Route element={<RequireAuth allowedRoles={["provider"]} />}>
         <Route path='/write' element={<WriteFeedback />} />
       </Route>
 
+      <Route path='*' element={<NotFound  />} />
     </Routes>
   )
 }
