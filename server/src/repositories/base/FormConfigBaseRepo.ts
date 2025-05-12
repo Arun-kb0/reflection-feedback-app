@@ -17,26 +17,25 @@ class FormConfigBaseRepo<T, U> implements IFormConfigBaseRepo<T, U> {
       return handleRepoError(error)
     }
   }
-  async findLatest(): Promise<any> {
+  async findLatest(): Promise<U | null> {
     try {
-      const newFormData = await this.fromConfigModel.find()
+      const formConfig = await this.fromConfigModel.find({})
         .sort({ updatedAt: -1 }).limit(1)
-      return newFormData as unknown as U
+      return formConfig.length > 0 ? (formConfig[0] as unknown as U) : null
     } catch (error) {
       return handleRepoError(error)
     }
   }
 
-
-  update(formData: T): Promise<any> {
+  update(formData: T): Promise<U | null> {
     throw new Error("Method not implemented.");
   }
 
-  delete(formData: T): Promise<any> {
+  delete(formData: T): Promise<U | null> {
     throw new Error("Method not implemented.");
   }
 
-  findById(id: string): Promise<any> {
+  findById(id: string): Promise<U | null> {
     throw new Error("Method not implemented.");
   }
 

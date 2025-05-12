@@ -32,7 +32,7 @@ app.use('/auth', authRouter)
 app.use('/form', authorize, formRouts)
 
 
-app.use('/admin/form/', formRoutesAdmin)
+app.use('/admin/form/', authorize, formRoutesAdmin)
 
 
 app.get('*', (req: Request, res: Response) => {

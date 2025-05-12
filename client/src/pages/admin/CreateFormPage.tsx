@@ -48,6 +48,7 @@ const CreateFormPage = (props: Props) => {
       : new Date(new Date().getTime() + 5 * 60 * 1000).toISOString(),
     }
     dispatch(createForm(configData))
+    toast('new form configured')
   }
 
   return (
