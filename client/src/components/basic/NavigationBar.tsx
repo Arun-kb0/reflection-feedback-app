@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Navbar,
   Collapse,
@@ -44,6 +44,15 @@ const NavigationBar = () => {
       >
         <Link to='/' className="flex items-center">
           Home
+        </Link>
+      </Typography>
+      <Typography
+        as="li"
+        type="small"
+        className="p-1 font-normal"
+      >
+        <Link to='/users' className="flex items-center">
+          Users
         </Link>
       </Typography>
       <Typography

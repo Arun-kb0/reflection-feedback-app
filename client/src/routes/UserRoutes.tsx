@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { selectAuthUser } from "../features/auth/authSlice"
 import NotFound from "../pages/basic/NotFound"
+import UsersPage from "../pages/user/UsersPage"
 
 
 const UserRoutes = () => {
@@ -32,6 +33,7 @@ const UserRoutes = () => {
 
       <Route element={<RequireAuth allowedRoles={["requestor", "provider"]} />}>
         <Route path='/' element={<Home />} />
+        <Route path='/users' element={<UsersPage />} />
       </Route>
 
       <Route element={<RequireAuth allowedRoles={["provider"]} />}>
