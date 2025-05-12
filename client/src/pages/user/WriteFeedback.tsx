@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Title from '../../components/basic/Title'
 import type { BreadcrumbType } from '../../constants/types'
 import FeedbackForm from '../../components/user/FeedbackForm'
@@ -7,39 +7,42 @@ import type { AppDispatch } from '../../app/store'
 import type { FeedbackType, FieldsFeedbackType } from '../../constants/formTypes'
 import { getLatestFeedbackForm } from '../../features/form/formApi'
 import { selectFormCurrentForm } from '../../features/form/formSlice'
-import { GiConsoleController } from 'react-icons/gi'
+import { useLocation } from 'react-router-dom'
+import { selectAuthUser } from '../../features/auth/authSlice'
 
-type Props = {}
 
-const WriteFeedback = (props: Props) => {
+const WriteFeedback = () => {
+  const location = useLocation()
   const dispatch = useDispatch<AppDispatch>()
   const [breadcrumbs] = useState<BreadcrumbType[]>([
     { label: "Home", href: "/" },
     { label: "Write", href: '/write' }
   ])
   const currentFormConfig = useSelector(selectFormCurrentForm)
+  const currentUser = useSelector(selectAuthUser)
+  const currentForm = useSelector(selectFormCurrentForm)
+  const user = location.state
 
   useEffect(() => {
     dispatch(getLatestFeedbackForm())
   }, [])
+
   const handleSubmitFeedback = (data: Record<string, any>) => {
+    if (!currentUser || !currentForm) return
     const { anonymous, ...rest } = data
     const dataFields: FieldsFeedbackType[] = Object.entries(rest).map(([fieldId, value]) => ({
       fieldId,
       value,
     }))
-    // ! this should be complete
-    const feedbackData: FeedbackType = {
-      _id: '',
-      requestorUserId: '',
-      providerUserId: '',
-      fromId: '',
+    const feedbackData: Omit<FeedbackType, '_id' | 'createdAt' | 'updatedAt'> = {
+      requestorUserId: user._id,
+      providerUserId: currentUser._id,
+      fromId: currentForm._id,
       fields: dataFields,
       isAnonymous: anonymous,
       status: 'pending',
-      createdAt: '',
-      updatedAt: ''
     }
+
     console.log(feedbackData)
   }
 

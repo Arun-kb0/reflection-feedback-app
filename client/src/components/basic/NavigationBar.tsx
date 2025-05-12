@@ -55,15 +55,6 @@ const NavigationBar = () => {
           Users
         </Link>
       </Typography>
-      <Typography
-        as="li"
-        type="small"
-        className="p-1 font-normal"
-      >
-        <Link to='/write' className="flex items-center">
-          Write Feedback
-        </Link>
-      </Typography>
     </ul>
   );
 
