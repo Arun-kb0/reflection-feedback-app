@@ -15,7 +15,7 @@ export interface IFeedbackDb {
   fields: IFieldsFeedback[]
   isAnonymous: boolean
   status: FeedBackStatus
-  rejectedReason?: string 
+  rejectedReason?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -38,7 +38,7 @@ const FeedbackSchema = new Schema<IFeedbackDb>({
     required: true
   },
   rejectedReason: { type: String }
-})
+}, { timestamps: true })
 
 const feedbackModel = mongoose.model('feedbacks', FeedbackSchema)
 

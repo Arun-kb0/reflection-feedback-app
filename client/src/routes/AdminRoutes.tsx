@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import AdminLogin from '../pages/admin/AdminLogin'
 import RequireAuth from './RequireAuth'
 import NotFound from '../pages/basic/NotFound'
+import CreateFormPage from '../pages/admin/CreateFormPage'
 
 
 const AdminRoutes = () => {
@@ -12,6 +13,7 @@ const AdminRoutes = () => {
 
       <Route element={<RequireAuth allowedRoles={['admin']} fallbackPath='/login' />}>
         <Route path='/' element={<AdminHome />} />
+        <Route path='/create-form' element={<CreateFormPage />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

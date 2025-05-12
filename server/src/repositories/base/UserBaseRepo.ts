@@ -10,6 +10,27 @@ class UserBaseRepo<T, U> implements IUserBaseRepo<T, U> {
     private userModel: Model<IUserDb>
   ) { }
 
+  async count(): Promise<number> {
+    try {
+      const count = await this.userModel.countDocuments()
+      return count
+    } catch (error) {
+      return handleRepoError(error)
+    }
+  }
+
+  async findAllUsers(limit: number, startIndex: number): Promise<U[]> {
+    try {
+      const users = await this.userModel.find()
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(limit)
+      return users as unknown as U[]
+    } catch (error) {
+      return handleRepoError(error)
+    }
+  }
+
   async create(user: T): Promise<U> {
     try {
       const newUser = await this.userModel.create(user)
@@ -33,8 +54,14 @@ class UserBaseRepo<T, U> implements IUserBaseRepo<T, U> {
     }
   }
 
-  findById(userId: string): Promise<U | null> {
-    throw new Error("Method not implemented.");
+  async findById(userId: string): Promise<U | null> {
+    try {
+      const userObjId = convertToObjectId(userId)
+      const user = await this.userModel.findOne({ _id: userObjId })
+      return user as unknown as U
+    } catch (error) {
+      return handleRepoError(error)
+    }
   }
 
   async findByEmail(email: string): Promise<U | null> {

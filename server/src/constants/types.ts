@@ -1,4 +1,5 @@
 import httpStatus from '../constants/httpStatus'
+import IFeedback from '../interfaces/IFeedback'
 import IUser from '../interfaces/IUser'
 
 export type ServiceReturnNoPromiseType<T> = {
@@ -28,5 +29,17 @@ export type ValidatorResponseType = {
   data: any | undefined
   error: string | undefined
   statusCode: httpStatus | undefined
+}
+
+export type UserPaginationType = {
+  users: IUser[]
+  currentPage: number
+  numberOfPages: number
+}
+
+export type FeedbackPaginationType = {
+  feedbacks: IFeedback[]
+  currentPage: number
+  numberOfPages: number
 }
 

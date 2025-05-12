@@ -7,6 +7,9 @@ interface IUserRepo {
   findUserByEmail(email: string): Promise<IUser | null>
   findUserByToken(accessToken: string): Promise<IUser | null>
 
+  countUsers(): Promise<number>
+  findAllUsers(limit: number, startIndex: number): Promise<IUser[]>
+  findUserByUserId(userId: string) : Promise<IUser| null>
 }
 
 export default IUserRepo

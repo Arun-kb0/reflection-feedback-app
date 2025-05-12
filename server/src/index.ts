@@ -7,7 +7,13 @@ import corsOptions from './config/corsOptions'
 import httpLogger from './middleware/httpLogger'
 import errorHandler from './middleware/errorHandler'
 import httpStatus from './constants/httpStatus'
+import authorize from './middleware/authorize'
 import authRouter from './routes/authRouter'
+import formRoutesAdmin from './routes/formRoutesAdmin'
+import formRouts from './routes/formRouts'
+import userRouter from './routes/userRouter'
+import feedbackRouter from './routes/feedbackRouter'
+
 
 const PORT = process.env.PORT || 3001
 const MONGO_DB_URI = process.env.MONGO_DB_URI || ''
@@ -24,6 +30,13 @@ app.get('/test', (req: Request, res: Response) => {
 
 
 app.use('/auth', authRouter)
+
+app.use('/form', authorize, formRouts)
+app.use('/user', authorize, userRouter)
+app.use('/feedback', authorize, feedbackRouter)
+
+
+app.use('/admin/form/', authorize, formRoutesAdmin)
 
 
 app.get('*', (req: Request, res: Response) => {
