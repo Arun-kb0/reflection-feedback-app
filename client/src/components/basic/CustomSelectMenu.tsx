@@ -12,7 +12,7 @@ const CustomSelectMenu = ({ selectOptions, value, onChange }: CustomSelectMenuPr
 
   const handleItemClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, item: string) => {
     e.preventDefault()
-    onChange(item)
+    onChange(item.toLocaleLowerCase())
     setIsOpen(false)
   };
 

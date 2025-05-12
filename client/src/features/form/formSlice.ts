@@ -1,17 +1,19 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import type { StatusType } from "../../constants/types"
-import type { UserType } from "../../constants/userTypes"
 import type { RootState } from "../../app/store"
-import { createForm } from "./formApi"
+import { createForm, getLatestFeedbackForm } from "./formApi"
+import type { FeedbackType, FormConfigType } from "../../constants/formTypes"
 
-type AuthStateType = {
+type FormStateType = {
   createFormStatus: StatusType
+  currentForm: FormConfigType | undefined
   forms: any[]
   error: string | undefined
 }
 
-const getInitState = (): AuthStateType => ({
+const getInitState = (): FormStateType => ({
   createFormStatus: 'idle',
+  currentForm: undefined,
   forms: [],
   error: undefined
 })
@@ -42,12 +44,22 @@ const formSlice = createSlice({
         state.error = action.error.message
       })
 
+
+      .addCase(getLatestFeedbackForm.fulfilled, (state, action) => {
+        state.currentForm = action.payload
+      })
+      .addCase(getLatestFeedbackForm.rejected, (state, action) => {
+        state.error = action.error.message
+      })
+
+    
   }
 
 })
 
 export const selectFormCreateFormStatus = (state: RootState) => state.form.createFormStatus;
 export const selectFormForms = (state: RootState) => state.form.forms;
+export const selectFormCurrentForm = (state: RootState) => state.form.currentForm;
 
 export const {
   setFormSliceToInitState

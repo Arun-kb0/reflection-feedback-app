@@ -38,3 +38,25 @@ export type FormConfigType = {
   createdAt: string
   updatedAt: string
 }
+
+
+
+export type FeedBackStatusType = 'pending' | 'completed' | 'expired' | 'rejected'
+
+export type FieldsFeedbackType =  {
+  fieldId: string,
+  value: string
+}
+
+export type FeedbackType =  {
+  _id: string
+  requestorUserId: string
+  providerUserId: string
+  fromId: string
+  fields: FieldsFeedbackType[]
+  isAnonymous: boolean
+  status: FeedBackStatusType
+  rejectedReason?: string
+  createdAt: string
+  updatedAt: string
+}
