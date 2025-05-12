@@ -2,13 +2,13 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import type { StatusType } from "../../constants/types"
 import type { RootState } from "../../app/store"
 import type { FeedbackType } from "../../constants/formTypes"
-import { createFeedback } from "./feedbackApi"
+import { createFeedback, getFeedbacks } from "./feedbackApi"
 
 type FormStateType = {
   feedbacks: FeedbackType[]
   currentPage: number
   numberOfPages: number
-  feedbacksStatus: StatusType
+  getFeedbacksStatus: StatusType
   createFeedbackStatus: StatusType
   error: string | undefined
 }
@@ -17,7 +17,7 @@ const getInitState = (): FormStateType => ({
   feedbacks: [],
   currentPage: 1,
   numberOfPages: 1,
-  feedbacksStatus: 'idle',
+  getFeedbacksStatus: 'idle',
   createFeedbackStatus: 'idle',
   error: undefined
 })
@@ -50,13 +50,32 @@ const feedback = createSlice({
       })
 
 
+      .addCase(getFeedbacks.pending, (state) => {
+        state.getFeedbacksStatus = 'loading'
+      })
+      .addCase(getFeedbacks.fulfilled, (state, action: PayloadAction<{ feedbacks: FeedbackType, currentPage: number, numberOfPages: number }>) => {
+        state.getFeedbacksStatus = 'success'
+        const { feedbacks, currentPage, numberOfPages } = action.payload
+        const newFeedbacks = Array.isArray(feedbacks) ? feedbacks : [feedbacks]
+        const existingIds = new Set(state.feedbacks.map(fb => fb._id))
+        const uniqueFeedbacks = newFeedbacks.filter(fb => !existingIds.has(fb._id))
+        state.feedbacks.push(...uniqueFeedbacks)
+        state.currentPage = currentPage
+        state.numberOfPages = numberOfPages
+      })
+      .addCase(getFeedbacks.rejected, (state, action) => {
+        state.getFeedbacksStatus = 'failed'
+        state.error = action.error.message
+      })
+
+
   }
 
 })
 
 // Selectors
 export const selectFeedbacks = (state: RootState) => state.feedback.feedbacks
-export const selectFeedbacksStatus = (state: RootState) => state.feedback.feedbacksStatus
+export const selectGetFeedbacksStatus = (state: RootState) => state.feedback.getFeedbacksStatus
 export const selectCreateFeedbackStatus = (state: RootState) => state.feedback.createFeedbackStatus
 export const selectFeedbackError = (state: RootState) => state.feedback.error
 
