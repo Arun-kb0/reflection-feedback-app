@@ -22,7 +22,7 @@ const initialState = getInitState()
 
 
 const formSlice = createSlice({
-  name: "auth",
+  name: "form",
   initialState,
   reducers: {
 

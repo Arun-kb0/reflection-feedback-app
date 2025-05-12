@@ -9,6 +9,8 @@ import { getLatestFeedbackForm } from '../../features/form/formApi'
 import { selectFormCurrentForm } from '../../features/form/formSlice'
 import { useLocation } from 'react-router-dom'
 import { selectAuthUser } from '../../features/auth/authSlice'
+import { createFeedback } from '../../features/feedback/feedbackApi'
+import { toast } from 'react-toastify'
 
 
 const WriteFeedback = () => {
@@ -43,7 +45,8 @@ const WriteFeedback = () => {
       status: 'pending',
     }
 
-    console.log(feedbackData)
+    dispatch(createFeedback(feedbackData))
+    toast('Feedback given.')
   }
 
   return (
