@@ -12,6 +12,7 @@ import authRouter from './routes/authRouter'
 import formRoutesAdmin from './routes/formRoutesAdmin'
 import formRouts from './routes/formRouts'
 import userRouter from './routes/userRouter'
+import feedbackRouter from './routes/feedbackRouter'
 
 
 const PORT = process.env.PORT || 3001
@@ -32,6 +33,7 @@ app.use('/auth', authRouter)
 
 app.use('/form', authorize, formRouts)
 app.use('/user', authorize, userRouter)
+app.use('/feedback', authorize, feedbackRouter)
 
 
 app.use('/admin/form/', authorize, formRoutesAdmin)

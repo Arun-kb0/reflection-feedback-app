@@ -12,6 +12,11 @@ import FormController from './controllers/FormController'
 import formConfigModel from './model/fromConfigModel'
 import UserService from './service/UserService'
 import UserController from './controllers/UserController'
+import FeedbackBaseRepo from './repositories/base/FeedbackBaseRepo'
+import FeedbackRepo from './repositories/FeedbackRepo'
+import FeedbackService from './service/FeedbackService'
+import FeedbackController from './controllers/FeedbackController'
+import feedbackModel,{IFeedbackDb} from './model/feedbackModel'
 
 const LIMIT = process.env.LIMIT || 10
 
@@ -32,3 +37,9 @@ const formRepo = new FormRepo(
 )
 const formService = new FormService(formRepo)
 export const formController = new FormController(formService)
+
+// * feedback
+const feedbackBaseRepo = new FeedbackBaseRepo<Partial<IFeedbackDb>, IFeedbackDb>(feedbackModel)
+const feedbackRepo = new FeedbackRepo(feedbackBaseRepo)
+const feedbackService = new FeedbackService(feedbackRepo)
+export const feedbackController = new FeedbackController(feedbackService)

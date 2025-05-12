@@ -3,6 +3,8 @@ import { IUserDb } from '../model/userModel'
 import IUser from '../interfaces/IUser'
 import IFormConfig from '../interfaces/IFormConfig'
 import { IFormConfigDb } from '../model/fromConfigModel'
+import IFeedback from '../interfaces/IFeedback'
+import { IFeedbackDb } from '../model/feedbackModel'
 
 
 export const stringToDate = (str: string): MongoDate => {
@@ -77,5 +79,42 @@ export const convertIFormConfigToIFormConfigDb = (formConfig: Partial<IFormConfi
     }
   })
 
-  return formConfigDb 
+  return formConfigDb
+}
+
+export const convertIFeedbackDbToIFeedback = (feedback: IFeedbackDb): IFeedback => {
+  return {
+    _id: feedback._id.toString(),
+    requestorUserId: feedback.requestorUserId.toString(),
+    providerUserId: feedback.providerUserId.toString(),
+    fromId: feedback.fromId.toString(),
+    fields: feedback.fields,
+    isAnonymous: feedback.isAnonymous,
+    status: feedback.status,
+    rejectedReason: feedback.rejectedReason,
+    createdAt: feedback.createdAt.toString(),
+    updatedAt: feedback.updatedAt.toString()
+  }
+}
+
+export const convertIFeedbackToIFeedbackDb = (feedback: Partial<IFeedback>): Partial<IFeedbackDb> => {
+  const conversionMap: { [key: string]: (value: any) => any } = {
+    _id: convertToObjectId,
+    requestorUserId: convertToObjectId,
+    providerUserId: convertToObjectId,
+    fromId: convertToObjectId,
+    createdAt: stringToDate,
+    updatedAt: stringToDate,
+  }
+  const feedbackDb: Partial<IFeedbackDb> = {}
+  Object.keys(feedback).forEach((key) => {
+    const typedKey = key as keyof IFeedback;
+    if (feedback[typedKey] && conversionMap[typedKey]) {
+      feedbackDb[typedKey] = conversionMap[typedKey](feedback[typedKey])
+    } else if (feedback[typedKey]) {
+      feedbackDb[typedKey as keyof IFeedback] = feedback[typedKey] as any;
+    }
+  })
+
+  return feedbackDb
 }
