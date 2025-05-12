@@ -30,3 +30,9 @@ export type ValidatorResponseType = {
   statusCode: httpStatus | undefined
 }
 
+export type UserPaginationType = {
+  users: IUser[]
+  currentPage: number
+  numberOfPages: number
+}
+

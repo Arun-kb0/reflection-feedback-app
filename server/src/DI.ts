@@ -10,7 +10,10 @@ import FormRepo from './repositories/FormRepo'
 import FormService from './service/FormService'
 import FormController from './controllers/FormController'
 import formConfigModel from './model/fromConfigModel'
+import UserService from './service/UserService'
+import UserController from './controllers/UserController'
 
+const LIMIT = process.env.LIMIT || 10
 
 // *auth & user 
 const userBaseRepo = new UserBaseRepo<Partial<IUserDb>, IUserDb>(userModel)
@@ -18,6 +21,9 @@ const userRepo = new UserRepo(userBaseRepo)
 
 const authService = new AuthService(userRepo)
 export const authController = new AuthController(authService)
+
+const userService = new UserService(userRepo, Number(LIMIT))
+export const userController = new UserController(userService)
 
 // * form
 const formConfigBaseRepo = new FormConfigBaseRepo<Partial<IFormConfigDb>, IFormConfigDb>(formConfigModel)

@@ -8,8 +8,35 @@ import { convertIUserDbToIUser, convertIUserToIUserDb } from '../util/converters
 class UserRepo implements IUserRepo {
 
   constructor(
-    private userBaseRepo: IUserBaseRepo<Partial<IUserDb>, IUserDb>
+    private userBaseRepo: IUserBaseRepo<Partial<IUserDb>, IUserDb>,
   ) { }
+
+  async findUserByUserId(userId: string): Promise<IUser | null> {
+    try {
+      const user = await this.userBaseRepo.findById(userId)
+      return user ? convertIUserDbToIUser(user) : null
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async countUsers(): Promise<number> {
+    try {
+      const count = await this.userBaseRepo.count()
+      return count
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async findAllUsers(limit: number, startIndex: number): Promise<IUser[]> {
+    try {
+      const users = await this.userBaseRepo.findAllUsers(limit, startIndex)
+      return users.map(user => convertIUserDbToIUser(user))
+    } catch (error) {
+      throw error
+    }
+  }
 
   async createUser(user: Pick<IUser, "email" | "password" | "profile">): Promise<IUser> {
     try {
