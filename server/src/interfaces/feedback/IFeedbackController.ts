@@ -6,6 +6,8 @@ interface IFeedbackController {
   createFeedback(req: Request, res: Response, next: NextFunction): Promise<void>
   updateFeedback(req: Request, res: Response, next: NextFunction): Promise<void>
 
+  getFeedbacks(req: Request, res: Response, next: NextFunction): Promise<void>
+
 }
 
 export default IFeedbackController

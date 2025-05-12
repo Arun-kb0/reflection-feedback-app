@@ -16,7 +16,7 @@ const FeedbackCard = ({ feedback }: Props) => {
 
   return (
     <Card className="w-96">
-      <CardHeader floated={false} className="h-32 flex justify-center">
+      <CardHeader floated={false} className="flex justify-center">
         <Typography variant="h4" className="mb-2">
           providerId : {feedback.providerUserId}
         </Typography>
@@ -29,7 +29,7 @@ const FeedbackCard = ({ feedback }: Props) => {
         ))}
       </CardBody>
       <CardFooter className="flex justify-center gap-7 pt-2">
-        
+
       </CardFooter>
     </Card>
   );

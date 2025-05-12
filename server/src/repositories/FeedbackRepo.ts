@@ -11,6 +11,24 @@ class FeedbackRepo implements IFeedbackRepo {
     private feedbackBaseRepo: IFeedbackBaseRepo<Partial<IFeedbackDb>, IFeedbackDb>
   ) { }
 
+  async countByRequestorUserId(userId: string): Promise<number> {
+    try {
+      const count = await this.feedbackBaseRepo.countByRequestorUserId(userId)
+      return count
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async findAllFeedbacksByRequestorUserId(userId: string, limit: number, startIndex: number): Promise<IFeedback[]> {
+    try {
+      const feedbacks = await this.feedbackBaseRepo.findAllByRequestorUserId(userId, limit, startIndex)
+      return feedbacks.map(item=> convertIFeedbackDbToIFeedback(item))
+    } catch (error) {
+      throw error
+    }
+  }
+
   async createFeedback(feedback: Partial<IFeedback>): Promise<IFeedback> {
     try {
       const converted = convertIFeedbackToIFeedbackDb(feedback)

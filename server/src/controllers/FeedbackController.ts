@@ -12,6 +12,21 @@ class FeedbackController implements IFeedbackController {
     private feedbackService: IFeedbackService
   ) { }
 
+  async getFeedbacks(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { page, userId } = req.query
+      validateRequest(
+        { page: Number(page), userId },
+        { page: "number", userId: "string" }
+      )
+      const svcRes = await this.feedbackService.getFeedbacks(userId as string, Number(page))
+      validateResponse(svcRes)
+      res.status(httpStatus.OK).json(svcRes.data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async createFeedback(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const {

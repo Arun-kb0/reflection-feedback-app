@@ -6,6 +6,9 @@ interface IFeedbackBaseRepo<T, U> {
   findById(feedbackId: string): Promise<U | null>
   delete(feedbackId: string): Promise<U | null>
 
+  countByRequestorUserId(userId: string): Promise<number>
+  findAllByRequestorUserId(userId: string, limit:number,startIndex:number): Promise<U[]>
+
 }
 
 export default IFeedbackBaseRepo
